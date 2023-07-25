@@ -48,6 +48,15 @@ submitNewBookForm.addEventListener("submit", (e) => {
   displayBooks();
 });
 
+function removeBookFromLibrary(bookIndex) {
+  myLibrary.splice(bookIndex, 1);
+  if (bookIndex < myLibrary.length) {
+    for (let i = bookIndex; i < myLibrary.length; i++) {
+      myLibrary[i].index -= 1;
+    }
+  }
+}
+
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
@@ -57,6 +66,7 @@ function Book(title, author, pages, read) {
 }
 
 function addBookToLibrary(book) {
+  book.index = myLibrary.length;
   myLibrary.push(book);
 }
 
@@ -72,10 +82,21 @@ function displayBooks() {
     bookPages.textContent = book.pages;
     const bookRead = document.createElement("h3");
     bookRead.textContent = book.read;
+    const removeBookBtn = document.createElement("button");
+    removeBookBtn.textContent = "Remove";
+    removeBookBtn.dataset.index = book.index;
+    removeBookBtn.addEventListener("click", (e) => {
+      console.log(e.target.dataset.index);
+      removeBookFromLibrary(e.target.dataset.index);
+      document.querySelector(".book-container").innerHTML = "";
+      displayBooks();
+    });
+
     bookCard.appendChild(bookTitle);
     bookCard.appendChild(bookAuthor);
     bookCard.appendChild(bookPages);
     bookCard.appendChild(bookRead);
+    bookCard.appendChild(removeBookBtn);
     document.querySelector(".book-container").appendChild(bookCard);
   });
 }
