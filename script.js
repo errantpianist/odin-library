@@ -20,6 +20,34 @@ addBookToLibrary(book3);
 addBookToLibrary(book4);
 displayBooks();
 
+const addBookBtn = document.querySelector(".add-book");
+const addBookModal = document.querySelector(".add-book-modal");
+addBookBtn.addEventListener("click", () => {
+  addBookModal.classList.toggle("active");
+});
+const submitNewBookForm = document.querySelector(".add-book-form");
+submitNewBookForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const newBookTitle = document.querySelector("#title").value;
+  const newBookAuthor = document.querySelector("#author").value;
+  const newBookPages = document.querySelector("#pages").value;
+  console.log(document.querySelector("#read").checked);
+  const newBookRead = document.querySelector("#read").checked
+    ? "Read"
+    : "Not read yet";
+  const newBook = new Book(
+    newBookTitle,
+    newBookAuthor,
+    newBookPages,
+    newBookRead
+  );
+  console.log(newBook);
+  addBookToLibrary(newBook);
+  addBookModal.classList.toggle("active");
+  document.querySelector(".book-container").innerHTML = "";
+  displayBooks();
+});
+
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
