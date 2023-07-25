@@ -63,6 +63,9 @@ function Book(title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.info = () => `${title} by ${author}, ${pages} pages, ${read}`;
+  this.toggleRead = () => {
+    this.read = this.read === "Read" ? "Not read yet" : "Read";
+  };
 }
 
 function addBookToLibrary(book) {
@@ -91,12 +94,19 @@ function displayBooks() {
       document.querySelector(".book-container").innerHTML = "";
       displayBooks();
     });
+    const toggleReadBtn = document.createElement("button");
+    toggleReadBtn.textContent = "Toggle Read";
+    toggleReadBtn.addEventListener("click", () => {
+      book.toggleRead();
+      bookRead.textContent = book.read;
+    });
 
     bookCard.appendChild(bookTitle);
     bookCard.appendChild(bookAuthor);
     bookCard.appendChild(bookPages);
     bookCard.appendChild(bookRead);
     bookCard.appendChild(removeBookBtn);
+    bookCard.appendChild(toggleReadBtn);
     document.querySelector(".book-container").appendChild(bookCard);
   });
 }
